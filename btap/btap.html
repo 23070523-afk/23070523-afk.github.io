@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ハノイ旅行ガイド - ベトナムの首都を探索</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #d4af37;
+            --secondary: #b22222;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --accent: #e67e22;
+            --text: #333;
+            --text-light: #777;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        button, .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        button:hover, .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1528127269322-539801943592?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 50px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            z-index: 100;
+        }
+
+        nav {
+            position: absolute;
+            top: 30px;
+            right: 50px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: white;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .header-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .header-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .header-content p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        /* Introduction Section */
+        .intro {
+            background: white;
+        }
+
+        .intro-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .intro-text {
+            flex: 1;
+        }
+
+        .intro-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .intro-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .intro-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Food Section */
+        .food {
+            background: #f9f9f9;
+        }
+
+        .food-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .category-btn {
+            padding: 10px 25px;
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .food-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .food-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .food-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .food-card:hover .food-image img {
+            transform: scale(1.1);
+        }
+
+        .food-info {
+            padding: 20px;
+        }
+
+        .food-info h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .food-info p {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .food-price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Craftsmen Section */
+        .craftsmen {
+            background: white;
+        }
+
+        .craftsmen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .craftsman-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .craftsman-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .craftsman-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .craftsman-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .craftsman-card:hover .craftsman-image img {
+            transform: scale(1.1);
+        }
+
+        .craftsman-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .craftsman-info h3 {
+            margin-bottom: 10px;
+        }
+
+        .craftsman-info p {
+            margin-bottom: 15px;
+        }
+
+        .craftsman-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .craftsman-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .craftsman-social a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Locations Section */
+        .locations {
+            background: #f9f9f9;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .location-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .location-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .location-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .location-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .location-card:hover .location-image img {
+            transform: scale(1.1);
+        }
+
+        .location-rating {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .location-info {
+            padding: 20px;
+        }
+
+        .location-info h3 {
+            margin-bottom: 10px;
+        }
+
+        .location-info p {
+            margin-bottom: 15px;
+        }
+
+        .location-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            background: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay i {
+            color: white;
+            font-size: 2rem;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: #f9f9f9;
+            padding: 60px 0;
+        }
+
+        .map-container {
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        /* Itinerary Section */
+        .itinerary {
+            background: white;
+        }
+
+        .itinerary-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .itinerary-content {
+            display: none;
+        }
+
+        .itinerary-content.active {
+            display: block;
+        }
+
+        .day-plan {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .day-plan h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .activity {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .activity-time {
+            flex: 0 0 100px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-details h4 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        .contact h2 {
+            color: white;
+        }
+
+        .contact h2:after {
+            background: white;
+        }
+
+        .contact p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .contact-content {
+            display: flex;
+            gap: 50px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-form {
+            flex: 1;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.9);
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            gap: 50px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            flex: 1;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-image {
+            height: 300px;
+            overflow: hidden;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .intro-content, .contact-content {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-wrap: wrap;
+            }
+            
+            .footer-column {
+                flex: 1 1 45%;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            nav {
+                position: static;
+                margin-top: 20px;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .header-content {
+                padding-top: 100px;
+            }
+            
+            .food-grid, .craftsmen-grid, .locations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-column {
+                flex: 1 1 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo {
+                left: 20px;
+            }
+            
+            nav {
+                right: 20px;
+            }
+            
+            .header-content h1 {
+                font-size: 2rem;
+            }
+            
+            .header-content p {
+                font-size: 1rem;
+            }
+            
+            section {
+                padding: 50px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="home">
+        <div class="logo">ハノイ</div>
+        <nav>
+            <ul>
+                <li><a href="#home">ホーム</a></li>
+                <li><a href="#intro">紹介</a></li>
+                <li><a href="#food">料理</a></li>
+                <li><a href="#craftsmen">職人</a></li>
+                <li><a href="#locations">場所</a></li>
+                <li><a href="#contact">連絡</a></li>
+            </ul>
+        </nav>
+        <div class="header-content">
+            <h1>ハノイを探索</h1>
+            <p>1000年の歴史を持つベトナムの首都の文化、料理、人々を体験</p>
+            <a href="#intro" class="btn">旅を始める</a>
+        </div>
+        <a href="#intro" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
+    </header>
+
+    <!-- Introduction Section -->
+    <section id="intro" class="intro">
+        <div class="container">
+            <div class="section-header">
+                <h2>ハノイについて</h2>
+                <p>ベトナムの首都ハノイ - 千年の文化、料理、歴史が集まる場所</p>
+            </div>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <h3>ハノイ - 平和のための都市</h3>
+                    <p>ハノイはベトナムの首都であり、数百年の歴史を持つ建築と、東南アジア、中国、フランスの影響を受けた豊かな文化で有名です。市の中心部は活気ある旧市街で、狭い通りが「ハング」という名前で呼ばれています。白馬を祀ったバックマ寺院をはじめ、多くの小さな寺院や、家庭用品や屋台料理を売るドンズアン市場があります。</p>
+                    <p>この都市には、ホアンキエム湖、文廟・国子監、ホーチミン廟、一柱寺、ハノイオペラハウスなど、多くの有名な観光名所があります。ハノイはまた、豊富な屋台料理と伝統工芸の村でも知られています。</p>
+                    <a href="#food" class="btn">料理を探索</a>
+                </div>
+                <div class="intro-image">
+                    <img src="https://images.unsplash.com/photo-1586783509320-4628c0d17967?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" alt="ハノイ">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Food Section -->
+    <section id="food" class="food">
+        <div class="container">
+            <div class="section-header">
+                <h2>ハノイ料理</h2>
+                <p>有名な屋台料理でハノイの独特な味を発見</p>
+            </div>
+            <div class="food-categories">
+                <button class="category-btn active" data-category="all">すべて</button>
+                <button class="category-btn" data-category="noodle">麺類</button>
+                <button class="category-btn" data-category="street">屋台</button>
+                <button class="category-btn" data-category="dessert">デザート</button>
+                <button class="category-btn" data-category="drink">飲み物</button>
+            </div>
+            <div class="food-grid">
+                <!-- Food items will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Craftsmen Section -->
+    <section id="craftsmen" class="craftsmen">
+        <div class="container">
+            <div class="section-header">
+                <h2>ハノイの職人</h2>
+                <p>繊細な製品を作る熟練職人との出会い</p>
+            </div>
+            <div class="craftsmen-grid">
+                <!-- Craftsmen items will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations Section -->
+    <section id="locations" class="locations">
+        <div class="container">
+            <div class="section-header">
+                <h2>人気スポット</h2>
+                <p>ハノイを訪れたら外せない観光名所</p>
+            </div>
+            <div class="locations-grid">
+                <!-- Location items will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2>フォトギャラリー</h2>
+                <p>写真家のレンズを通したハノイの美しい瞬間</p>
+            </div>
+            <div class="gallery-grid">
+                <!-- Gallery items will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>ハノイマップ</h2>
+                <p>ハノイの地図で人気観光スポットを発見</p>
+            </div>
+            <div class="map-container">
+                <!-- Map will be loaded here -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59587.97785449279!2d105.8019441!3d21.022736!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9bd9861ca1%3A0xe7887f7b72ca17a9!2zSMOgIE7hu5lp!5e0!3m2!1sja!2s!4v1696577783178!5m2!1sja!2s" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Itinerary Section -->
+    <section class="itinerary">
+        <div class="container">
+            <div class="section-header">
+                <h2>旅行プラン</h2>
+                <p>あなたのスケジュールに合ったハノイ探索プランの提案</p>
+            </div>
+            <div class="itinerary-tabs">
+                <button class="tab-btn active" data-tab="1day">1日</button>
+                <button class="tab-btn" data-tab="2day">2日</button>
+                <button class="tab-btn" data-tab="3day">3日</button>
+                <button class="tab-btn" data-tab="5day">5日</button>
+            </div>
+            <div class="itinerary-content active" id="1day">
+                <div class="day-plan">
+                    <h3>1日目: ハノイ中心部探索</h3>
+                    <div class="activity">
+                        <div class="activity-time">08:00</div>
+                        <div class="activity-details">
+                            <h4>フォーで朝食</h4>
+                            <p>ハノイの有名なフォー店で伝統的なフォーを楽しむ</p>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-time">09:30</div>
+                        <div class="activity-details">
+                            <h4>文廟・国子監見学</h4>
+                            <p>ベトナム最初の大学を探索</p>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-time">11:30</div>
+                        <div class="activity-details">
+                            <h4>ホーチミン廟見学</h4>
+                            <p>ホーチミン主席の廟を訪問</p>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-time">13:30</div>
+                        <div class="activity-details">
+                            <h4>旧市街で昼食</h4>
+                            <p>ブンチャーや屋台料理を楽しむ</p>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-time">15:00</div>
+                        <div class="activity-details">
+                            <h4>ハノイ旧市街探索</h4>
+                            <p>36通りを散策し、お土産を購入</p>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-time">17:00</div>
+                        <div class="activity-details">
+                            <h4>卵コーヒーを楽しむ</h4>
+                            <p>ハノイ独特の卵コーヒーを体験</p>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-time">19:00</div>
+                        <div class="activity-details">
+                            <h4>水上人形劇観賞</h4>
+                            <p>伝統的な水上人形劇を楽しむ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="itinerary-content" id="2day">
+                <!-- Content for 2-day itinerary -->
+            </div>
+            <div class="itinerary-content" id="3day">
+                <!-- Content for 3-day itinerary -->
+            </div>
+            <div class="itinerary-content" id="5day">
+                <!-- Content for 5-day itinerary -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>お問い合わせ</h2>
+                <p>ハノイ旅行についてのアドバイスを受けるために情報を残してください</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3>住所</h3>
+                            <p>ハノイ旧市街123、ホアンキエム区、ハノイ</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h3>電話</h3>
+                            <p>+84 123 456 789</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3>メール</h3>
+                            <p>info@hanoitravel.vn</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h3>営業時間</h3>
+                            <p>月曜～日曜: 8:00 - 22:00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" placeholder="お名前" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="メールアドレス" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="電話番号">
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="メッセージ内容" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">メッセージを送信</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ハノイトラベル</h3>
+                    <p>ハノイでのツアー旅行とユニークな文化体験を専門に提供しています。</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>クイックリンク</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">ホーム</a></li>
+                        <li><a href="#intro">紹介</a></li>
+                        <li><a href="#food">料理</a></li>
+                        <li><a href="#craftsmen">職人</a></li>
+                        <li><a href="#locations">場所</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>サービス</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">ツアー旅行</a></li>
+                        <li><a href="#">ホテル予約</a></li>
+                        <li><a href="#">ガイド</a></li>
+                        <li><a href="#">レンタカー</a></li>
+                        <li><a href="#">料理</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>ニュースレター</h3>
+                    <p>ハノイ旅行に関する最新情報を受け取るために登録してください</p>
+                    <div class="form-group">
+                        <input type="email" placeholder="あなたのメールアドレス">
+                        <button class="btn" style="margin-top: 10px;">登録</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ハノイトラベル。全著作権所有。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <div class="modal-close">&times;</div>
+            <div class="modal-image">
+                <img src="" alt="">
+            </div>
+            <div class="modal-body">
+                <h3></h3>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for the website
+        const foodData = [
+            {
+                id: 1,
+                name: "フォー・ボー",
+                description: "香り豊かなスープ、柔らかいライスヌードル、新鮮な牛肉を使った伝統料理。",
+                price: "45,000 VND",
+                image: "https://images.unsplash.com/photo-1552611052-33e04de081de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80",
+                category: "noodle"
+            },
+            {
+                id: 2,
+                name: "ブン・チャ",
+                description: "ハノイの特徴的な料理で、香ばしいグリルポーク、新鮮なライスヌードル、甘酸っぱいヌックマムソース。",
+                price: "40,000 VND",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1052&q=80",
+                category: "noodle"
+            },
+            {
+                id: 3,
+                name: "バインミー・パテ",
+                description: "サクサクのバゲットにパテ、ハム、チャーリュー、新鮮な野菜を挟んだもの。",
+                price: "25,000 VND",
+                image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1180&q=80",
+                category: "street"
+            },
+            {
+                id: 4,
+                name: "卵コーヒー",
+                description: "ハノイ独特の飲み物で、苦いコーヒーの上にクリーミーな卵の層がのっている。",
+                price: "35,000 VND",
+                image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                category: "drink"
+            },
+            {
+                id: 5,
+                name: "チャー・カー・ラー・ボン",
+                description: "香ばしく焼いた魚をブン、ハーブ、特徴的なシュリンプペーストソースと一緒に食べる。",
+                price: "120,000 VND",
+                image: "https://images.unsplash.com/photo-1546833996-9c96d73a8c99?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                category: "street"
+            },
+            {
+                id: 6,
+                name: "バイン・クオン・タイン・チー",
+                description: "薄いライスペーパーに香りよい肉餡を包み、チャーケーと甘酸っぱいヌックマムソースと一緒に食べる。",
+                price: "35,000 VND",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1052&q=80",
+                category: "street"
+            },
+            {
+                id: 7,
+                name: "チェー・ハノイ",
+                description: "黒豆ぜんざい、ザボンのチェー、蓮の実のチェーなど、伝統的な甘味でさっぱりしている。",
+                price: "20,000 VND",
+                image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                category: "dessert"
+            },
+            {
+                id: 8,
+                name: "ハノイ生ビール",
+                description: "自然発酵の生ビールで、ハノイでしか味わえない特徴的な風味。",
+                price: "15,000 VND",
+                image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                category: "drink"
+            }
+        ];
+
+        const craftsmenData = [
+            {
+                id: 1,
+                name: "グエン・ヴァン・フン",
+                title: "バインクオン職人",
+                description: "30年以上の経験を持つフン氏は、ハノイで最も有名なバインクオン職人の一人です。",
+                image: "https://images.unsplash.com/photo-1583337130417-0c3fb6baf6b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+            },
+            {
+                id: 2,
+                name: "チャン・ティ・ラン",
+                title: "卵コーヒー職人",
+                description: "ランさんは卵コーヒーを作る家系の3代目で、独特の調合の秘伝を守っています。",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+            },
+            {
+                id: 3,
+                name: "ファム・クオック・トアン",
+                title: "バインミー職人",
+                description: "トアンさんは伝統的な味と現代的な味を組み合わせた独自のバインミーレシピを開発しました。",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+            },
+            {
+                id: 4,
+                name: "レ・ティ・フオン",
+                title: "チャーゾー職人",
+                description: "家伝の秘伝で、フオンさんは特別にサクサクで香ばしいチャーゾーを作り出します。",
+                image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1076&q=80"
+            }
+        ];
+
+        const locationsData = [
+            {
+                id: 1,
+                name: "ホアンキエム湖",
+                description: "ハノイの中心にある、亀の塔と赤いテフク橋が特徴的な湖。",
+                image: "https://images.unsplash.com/photo-1586783509320-4628c0d17967?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80",
+                rating: 4.8,
+                type: "landmark"
+            },
+            {
+                id: 2,
+                name: "文廟・国子監",
+                description: "ベトナム最初の大学で、知恵と文化の象徴。",
+                image: "https://images.unsplash.com/photo-1596189180251-40f4d8dd6d5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                rating: 4.7,
+                type: "historical"
+            },
+            {
+                id: 3,
+                name: "ハノイ旧市街",
+                description: "36通りの伝統的な地区で、活気ある生活が息づく。",
+                image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
+                rating: 4.6,
+                type: "cultural"
+            },
+            {
+                id: 4,
+                name: "ホーチミン廟",
+                description: "ベトナム民族の敬愛する指導者ホーチミン主席が眠る場所。",
+                image: "https://images.unsplash.com/photo-1621865640542-bfe52d9d6c42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                rating: 4.9,
+                type: "historical"
+            },
+            {
+                id: 5,
+                name: "一柱寺",
+                description: "蓮の花の形をした独特の建築を持つ仏教文化の象徴。",
+                image: "https://images.unsplash.com/photo-1599154889059-20c2c912a5b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                rating: 4.5,
+                type: "religious"
+            },
+            {
+                id: 6,
+                name: "ハノイオペラハウス",
+                description: "古典的なフランス建築の建造物で、重要な文化イベントが行われる場所。",
+                image: "https://images.unsplash.com/photo-1598890777032-bde8356af6be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                rating: 4.4,
+                type: "cultural"
+            }
+        ];
+
+        const galleryData = [
+            {
+                id: 1,
+                image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
+                title: "ハノイ旧市街"
+            },
+            {
+                id: 2,
+                image: "https://images.unsplash.com/photo-1586783509320-4628c0d17967?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80",
+                title: "ホアンキエム湖"
+            },
+            {
+                id: 3,
+                image: "https://images.unsplash.com/photo-1596189180251-40f4d8dd6d5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                title: "文廟・国子監"
+            },
+            {
+                id: 4,
+                image: "https://images.unsplash.com/photo-1621865640542-bfe52d9d6c42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                title: "ホーチミン廟"
+            },
+            {
+                id: 5,
+                image: "https://images.unsplash.com/photo-1599154889059-20c2c912a5b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                title: "一柱寺"
+            },
+            {
+                id: 6,
+                image: "https://images.unsplash.com/photo-1598890777032-bde8356af6be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                title: "ハノイオペラハウス"
+            },
+            {
+                id: 7,
+                image: "https://images.unsplash.com/photo-1552611052-33e04de081de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80",
+                title: "ハノイのフォー"
+            },
+            {
+                id: 8,
+                image: "https://images.unsplash.com/photo-1583337130417-0c3fb6baf6b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+                title: "料理職人"
+            }
+        ];
+
+        // Initialize the website
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load food items
+            loadFoodItems();
+            
+            // Load craftsmen
+            loadCraftsmen();
+            
+            // Load locations
+            loadLocations();
+            
+            // Load gallery
+            loadGallery();
+            
+            // Setup event listeners
+            setupEventListeners();
+        });
+
+        function loadFoodItems() {
+            const foodGrid = document.querySelector('.food-grid');
+            foodGrid.innerHTML = '';
+            
+            foodData.forEach(food => {
+                const foodCard = document.createElement('div');
+                foodCard.className = 'food-card';
+                foodCard.setAttribute('data-category', food.category);
+                foodCard.innerHTML = `
+                    <div class="food-image">
+                        <img src="${food.image}" alt="${food.name}">
+                    </div>
+                    <div class="food-info">
+                        <h3>${food.name}</h3>
+                        <p>${food.description}</p>
+                        <div class="food-price">${food.price}</div>
+                    </div>
+                `;
+                foodGrid.appendChild(foodCard);
+            });
+        }
+
+        function loadCraftsmen() {
+            const craftsmenGrid = document.querySelector('.craftsmen-grid');
+            craftsmenGrid.innerHTML = '';
+            
+            craftsmenData.forEach(craftsman => {
+                const craftsmanCard = document.createElement('div');
+                craftsmanCard.className = 'craftsman-card';
+                craftsmanCard.innerHTML = `
+                    <div class="craftsman-image">
+                        <img src="${craftsman.image}" alt="${craftsman.name}">
+                    </div>
+                    <div class="craftsman-info">
+                        <h3>${craftsman.name}</h3>
+                        <p class="craftsman-title">${craftsman.title}</p>
+                        <p>${craftsman.description}</p>
+                        <div class="craftsman-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                `;
+                craftsmenGrid.appendChild(craftsmanCard);
+            });
+        }
+
+        function loadLocations() {
+            const locationsGrid = document.querySelector('.locations-grid');
+            locationsGrid.innerHTML = '';
+            
+            locationsData.forEach(location => {
+                const locationCard = document.createElement('div');
+                locationCard.className = 'location-card';
+                locationCard.innerHTML = `
+                    <div class="location-image">
+                        <img src="${location.image}" alt="${location.name}">
+                        <div class="location-rating">
+                            <i class="fas fa-star"></i> ${location.rating}
+                        </div>
+                    </div>
+                    <div class="location-info">
+                        <h3>${location.name}</h3>
+                        <p>${location.description}</p>
+                        <div class="location-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> ハノイ</span>
+                            <span><i class="fas fa-clock"></i> 8:00 - 22:00</span>
+                        </div>
+                    </div>
+                `;
+                locationsGrid.appendChild(locationCard);
+            });
+        }
+
+        function loadGallery() {
+            const galleryGrid = document.querySelector('.gallery-grid');
+            galleryGrid.innerHTML = '';
+            
+            galleryData.forEach(item => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                `;
+                galleryGrid.appendChild(galleryItem);
+            });
+        }
+
+        function setupEventListeners() {
+            // Food category filtering
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    filterFoodItems(category);
+                });
+            });
+            
+            // Itinerary tabs
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const tabId = this.getAttribute('data-tab');
+                    switchItineraryTab(tabId);
+                });
+            });
+            
+            // Modal functionality
+            const modal = document.getElementById('imageModal');
+            const modalClose = document.querySelector('.modal-close');
+            const modalImage = modal.querySelector('.modal-image img');
+            const modalTitle = modal.querySelector('.modal-body h3');
+            const modalDescription = modal.querySelector('.modal-body p');
+            
+            // Close modal when clicking X
+            modalClose.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Gallery item click
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach((item, index) => {
+                item.addEventListener('click', function() {
+                    const galleryItem = galleryData[index];
+                    modalImage.src = galleryItem.image;
+                    modalTitle.textContent = galleryItem.title;
+                    modalDescription.textContent = `ハノイの${galleryItem.title}の美しい写真`;
+                    modal.style.display = 'flex';
+                });
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a, .scroll-down').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Contact form submission
+            const contactForm = document.getElementById('contactForm');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('お問い合わせいただきありがとうございます！できるだけ早くご返信いたします。');
+                contactForm.reset();
+            });
+        }
+
+        function filterFoodItems(category) {
+            const foodCards = document.querySelectorAll('.food-card');
+            
+            foodCards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function switchItineraryTab(tabId) {
+            const tabContents = document.querySelectorAll('.itinerary-content');
+            
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>

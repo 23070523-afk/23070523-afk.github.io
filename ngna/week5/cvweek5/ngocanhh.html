@@ -1,44 +1,426 @@
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-
-    <title>CV - Nguyen Quynh Anh</title>
-    
-    me.png
-    
-    
-    
     <meta charset="UTF-8">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
-    </head>
-    
-    <body>
-    
-    cv.html
-    
-    <h1>My CV</h1>
-    
-    <p> <img src="is.jpg" alt="images" width="150"></p>
-    
-    <p><strong>Name:</strong> Nguyen Ngoc Anh</p>
-    
-    <p><strong>Date of Birth:</strong> 22/05/2005</p>
-    
-    <p><strong>Address:</strong> Me Linh, Ha Noi</p>
-    
-    <p><strong>Phone:</strong> 0967504228</p>
-    
-    <p><strong>Email:</strong> 23070523@vnu.edu.vnu</p>
-    
-    <p><strong>Education:</strong> International School - Vietnam National University</p>
-    <h1>NGNA</h1>
-    <p style="color: rgb(111, 111, 232);">this is p tag with blue color</p>
-    <h1 style="text-decoration: underline;">Hobbies </h1>
-    <p style="background-color: rgb(182, 149, 212);">This text background is blueviolet </p>
-    </body>
-    <video
-    src="tho.mp4"
-    controls
-    width="400"
-    >
+    <title>CV - Vũ Hoàng Nam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.45;
+            font-size: 14px;
+        }
+        
+        .container {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            background-color: white;
+            display: flex;
+            page-break-inside: avoid;
+        }
+        
+        .left-column {
+            flex: 1;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 22px 18px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .right-column {
+            flex: 2;
+            padding: 22px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 18px;
+            overflow: hidden;
+            background-color: #eee;
+        }
+        
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        h1 {
+            font-size: 22px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: white;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 16px;
+            margin-bottom: 16px;
+            font-weight: 400;
+            opacity: 0.9;
+            color: white;
+            text-align: center;
+        }
+        
+        h3 {
+            font-size: 16px;
+            margin: 18px 0 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #3498db;
+            text-transform: uppercase;
+            color: white;
+        }
+        
+        .section {
+            margin-bottom: 18px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            color: white;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .contact-info i {
+            width: 16px;
+            margin-right: 8px;
+            text-align: center;
+        }
+        
+        .skills-list {
+            list-style-type: none;
+        }
+        
+        .skills-list li {
+            margin-bottom: 8px;
+            padding-left: 12px;
+            position: relative;
+            color: white;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .skills-list li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 18px;
+        }
+        
+        .timeline:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #3498db;
+        }
+        
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .timeline-item:before {
+            content: "";
+            position: absolute;
+            left: -20px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #3498db;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        
+        .timeline-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+        
+        .timeline-subtitle {
+            font-style: italic;
+            margin-bottom: 8px;
+            color: #7f8c8d;
+            font-size: 13px;
+        }
+        
+        .timeline-details {
+            list-style-type: none;
+        }
+        
+        .timeline-details li {
+            margin-bottom: 6px;
+            padding-left: 14px;
+            position: relative;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .timeline-details li:before {
+            content: "-";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .objective {
+            background-color: #f8f9fa;
+            padding: 16px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .certificates {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .certificate {
+            background-color: #f8f9fa;
+            padding: 12px 14px;
+            border-radius: 6px;
+        }
+        
+        .certificate strong {
+            color: #1a5276;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .certificate p {
+            color: #1a5276;
+            font-weight: bold;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        
+        .compact-section {
+            margin-bottom: 20px;
+        }
+        
+        .right-column h3 {
+            color: #2c3e50;
+            font-size: 17px;
+            margin: 20px 0 14px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 6px;
+        }
+
+        /* Điều chỉnh khoảng cách để lấp đầy */
+        .expanded-section {
+            margin-bottom: 22px;
+        }
+
+        .expanded-item {
+            margin-bottom: 22px;
+        }
+
+        .expanded-details li {
+            margin-bottom: 7px;
+            line-height: 1.5;
+        }
+
+        /* Print optimization */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+            .container {
+                margin: 0;
+                box-shadow: none;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        /* Đảm bảo chiếm đủ chiều cao */
+        .full-height {
+            height: 100%;
+        }
+
+        .space-filler {
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Tăng khoảng cách giữa các dòng */
+        .spacious-line {
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container full-height">
+        <div class="left-column full-height">
+            <div class="profile-img">
+                <img src="vhn.png" alt="Vũ Hoàng Nam">
+            </div>
+            
+            <h1>VŨ HOÀNG NAM</h1>
+            <h2>NHÂN VIÊN KINH DOANH</h2>
+            
+            <div class="section expanded-section">
+                <h3>THÔNG TIN LIÊN HỆ</h3>
+                <div class="contact-info spacious-line">
+                    <p><i>📅</i> 16/12/2002</p>
+                    <p><i>👤</i> Nam</p>
+                    <p><i>📞</i> 0346088755</p>
+                    <p><i>✉️</i> vunam161202@gmail.com</p>
+                    <p><i>📍</i> Số 173 Tam Trinh, Hoàng Mai, Hà Nội</p>
+                    <p><i>🌐</i> fb.com/19KtmPhVjj</p>
+                </div>
+            </div>
+            
+            <div class="section expanded-section">
+                <h3>CHỨNG CHỈ</h3>
+                <div class="certificates">
+                    <div class="certificate">
+                        <strong>IELTS</strong>
+                        <p>2019 - 6.0</p>
+                    </div>
+                    <div class="certificate">
+                        <strong>Tin học VP</strong>
+                        <p>Word, Excel, PowerPoint</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section expanded-section">
+                <h3>KỸ NĂNG</h3>
+                <ul class="skills-list spacious-line">
+                    <li>Tiếng Anh giao tiếp</li>
+                    <li>Bán hàng & tư vấn</li>
+                    <li>Chăm sóc khách hàng</li>
+                    <li>Phát triển thị trường</li>
+                    <li>Làm việc nhóm</li>
+                </ul>
+            </div>
+            
+            <div class="space-filler">
+                <div class="section expanded-section">
+                    <h3>SỞ THÍCH</h3>
+                    <ul class="skills-list spacious-line">
+                        <li>Đọc sách</li>
+                        <li>Đánh cầu lông</li>
+                        <li>Bơi lội</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-column full-height">
+            <div class="compact-section expanded-section">
+                <h3>MỤC TIÊU NGHỀ NGHIỆP</h3>
+                <div class="objective spacious-line">
+                    <p>Áp dụng kinh nghiệm về kỹ năng kinh doanh và hiểu biết thị trường để trở thành nhân viên kinh doanh chuyên nghiệp, mang đến giá trị cho khách hàng và giúp công ty mở rộng tập khách hàng.</p>
+                </div>
+            </div>
+            
+            <div class="compact-section expanded-section">
+                <h3>KINH NGHIỆM LÀM VIỆC</h3>
+                <div class="timeline">
+                    <div class="timeline-item expanded-item">
+                        <div class="timeline-date">02/2025 - 09/2025</div>
+                        <div class="timeline-title">NHÂN VIÊN BÁN HÀNG - Tired City</div>
+                        <ul class="timeline-details expanded-details spacious-line">
+                            <li>Đón tiếp, giới thiệu sản phẩm nghệ thuật</li>
+                            <li>Tư vấn bằng tiếng Anh về nguồn gốc, ý nghĩa sản phẩm</li>
+                            <li>Hỗ trợ thanh toán quốc tế, giao dịch</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item expanded-item">
+                        <div class="timeline-date">07/2024 - 12/2024</div>
+                        <div class="timeline-title">TƯ VẤN VIÊN - Hunters Store</div>
+                        <ul class="timeline-details expanded-details spacious-line">
+                            <li>Tư vấn sản phẩm qua fanpage, chat web, Shopee</li>
+                            <li>Giải đáp thắc mắc, xử lý khiếu nại sau bán hàng</li>
+                            <li>Theo dõi đơn hàng, chăm sóc khách hàng cũ</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item expanded-item">
+                        <div class="timeline-date">06/2023 - 11/2023</div>
+                        <div class="timeline-title">NHÂN VIÊN KINH DOANH - SACE EDUCATION</div>
+                        <ul class="timeline-details expanded-details spacious-line">
+                            <li>Tư vấn khóa học trực tiếp, điện thoại, email</li>
+                            <li>Chăm sóc học viên trước, trong và sau khóa học</li>
+                            <li>Phối hợp Marketing triển khai chiến dịch</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="compact-section expanded-section">
+                <h3>HỌC VẤN</h3>
+                <div class="timeline">
+                    <div class="timeline-item expanded-item">
+                        <div class="timeline-date">09/2020 - 06/2024</div>
+                        <div class="timeline-title">ĐẠI HỌC QUỐC GIA HÀ NỘI</div>
+                        <div class="timeline-subtitle">Kinh Doanh Quốc Tế - Tốt nghiệp loại Khá</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-filler">
+                <div class="compact-section expanded-section">
+                    <h3>HOẠT ĐỘNG</h3>
+                    <div class="timeline">
+                        <div class="timeline-item expanded-item">
+                            <div class="timeline-date">06/2020 - 10/2020</div>
+                            <div class="timeline-title">TÌNH NGUYỆN VIÊN</div>
+                            <div class="timeline-subtitle">Đoàn Tình Nguyện Trường Quốc Tế</div>
+                            <ul class="timeline-details expanded-details spacious-line">
+                                <li>Trợ giúp hoạt động từ thiện trẻ em vùng cao</li>
+                                <li>Hỗ trợ tổ chức các hoạt động</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
