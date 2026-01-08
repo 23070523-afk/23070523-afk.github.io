@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Funds - Time Locked Wallet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4a6ee0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a6ee0;
+        }
+
+        .wallet-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .wallet-info .address {
+            background: #eef2ff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .wallet-info .balance {
+            color: #666;
+        }
+
+        .page-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            background: #4a6ee0;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-btn:hover {
+            background: #3a5ed0;
+        }
+
+        .beneficiary-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .beneficiary-section label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .beneficiary-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        /* Bảng danh sách ví */
+        .wallets-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .wallets-table th {
+            background: #f8f9fa;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .wallets-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .wallets-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .wallet-address {
+            font-family: monospace;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .creator-address {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .time-cell {
+            white-space: nowrap;
+            font-size: 13px;
+        }
+
+        .countdown {
+            color: #28a745;
+            font-weight: 500;
+            padding: 3px 8px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .countdown.ready {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .balance-cell {
+            text-align: right;
+            font-family: monospace;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Nút rút tiền */
+        .withdraw-btn {
+            background: #4a6ee0;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            min-width: 60px;
+        }
+
+        .withdraw-btn:hover {
+            background: #3a5ed0;
+        }
+
+        .withdraw-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* Tổng kết */
+        .summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .summary strong {
+            color: #333;
+        }
+
+        /* Modal rút tiền */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: #4a6ee0;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .modal-header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-balance {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .modal-balance .amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a6ee0;
+            margin-bottom: 5px;
+        }
+
+        .modal-balance .label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .amount-input-group {
+            margin-bottom: 20px;
+        }
+
+        .amount-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .amount-input {
+            position: relative;
+        }
+
+        .amount-input input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: center;
+            font-family: monospace;
+        }
+
+        .amount-input .unit {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .percentage-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .percentage-btn {
+            padding: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .percentage-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .percentage-btn.active {
+            background: #4a6ee0;
+            color: white;
+            border-color: #4a6ee0;
+        }
+
+        .preview-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .preview-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .preview-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .preview-row .label {
+            color: #666;
+        }
+
+        .preview-row .value {
+            font-weight: 500;
+        }
+
+        .remaining-balance {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .modal-btn.cancel {
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #e9ecef;
+        }
+
+        .modal-btn.confirm {
+            background: #4a6ee0;
+            color: white;
+        }
+
+        .modal-btn.confirm:hover {
+            background: #3a5ed0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Time Locked Wallet</div>
+            <div class="wallet-info">
+                <span class="address">0x6c28...8469</span>
+                <span class="balance">Balance: 998.9993 ETH</span>
+            </div>
+        </header>
+
+        <div class="page-title">Claim Funds</div>
+
+        <div class="search-section">
+            <input type="text" class="search-input" placeholder="Tìm theo wallet, creator, beneficiary...">
+            <button class="search-btn">🔍</button>
+        </div>
+
+        <div class="beneficiary-section">
+            <label>Beneficiary Address</label>
+            <input type="text" class="beneficiary-input" placeholder="Để trống để xem wallets của bạn">
+        </div>
+
+        <!-- Bảng danh sách ví -->
+        <table class="wallets-table">
+            <thead>
+                <tr>
+                    <th>Wallet</th>
+                    <th>Creator</th>
+                    <th>Created Time</th>
+                    <th>Release Time</th>
+                    <th>Countdown</th>
+                    <th>Ether</th>
+                    <th>ASH Token</th>
+                    <th>Withdraw Ether</th>
+                    <th>Withdraw Token</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="wallet-address">0xCf91BA6d858F58cA8a287972E6de5678f025EdD</td>
+                    <td class="creator-address">0x6C288882...</td>
+                    <td class="time-cell">16:10 29/12/2025</td>
+                    <td class="time-cell">16:12 29/12/2025</td>
+                    <td><span class="countdown ready">Sẵn sàng</span></td>
+                    <td class="balance-cell">2.0000 ETH</td>
+                    <td class="balance-cell">0.00 ASH</td>
+                    <td><button class="withdraw-btn" onclick="openWithdrawModal('ether')">RÚT</button></td>
+                    <td><button class="withdraw-btn" onclick="openWithdrawModal('token')" disabled>RÚT</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="summary">
+            Tổng: 1 wallet(s) | Tổng Ether: 2.0000 ETH | Tổng Token: 0.00 ASH
+        </div>
+    </div>
+
+    <!-- Modal rút tiền -->
+    <div class="modal-overlay" id="withdrawModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Rút tiền từ ví</h3>
+                <p>Nhập số lượng bạn muốn rút</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="modal-balance">
+                    <div class="amount" id="modalBalance">2.0000 ETH</div>
+                    <div class="label">Số dư khả dụng</div>
+                </div>
+
+                <div class="amount-input-group">
+                    <label>Số tiền muốn rút</label>
+                    <div class="amount-input">
+                        <input type="number" id="withdrawAmount" value="2.0000" step="0.0001" min="0.0001" max="2.0000">
+                        <span class="unit" id="withdrawUnit">ETH</span>
+                    </div>
+                </div>
+
+                <div class="percentage-buttons">
+                    <button class="percentage-btn" onclick="setPercentage(25)">25%</button>
+                    <button class="percentage-btn" onclick="setPercentage(50)">50%</button>
+                    <button class="percentage-btn" onclick="setPercentage(75)">75%</button>
+                    <button class="percentage-btn active" onclick="setPercentage(100)">100%</button>
+                </div>
+
+                <div class="preview-section">
+                    <div class="preview-row">
+                        <span class="label">Sẽ rút:</span>
+                        <span class="value" id="previewAmount">2.0000 ETH</span>
+                    </div>
+                    <div class="preview-row">
+                        <span class="label">Còn lại:</span>
+                        <span class="value remaining-balance" id="previewRemaining">0.0000 ETH</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="modal-btn cancel" onclick="closeModal()">Hủy</button>
+                <button class="modal-btn confirm" onclick="confirmWithdrawal()">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentBalance = 2.0000;
+        let currentUnit = 'ETH';
+        let withdrawType = 'ether';
+
+        function openWithdrawModal(type) {
+            withdrawType = type;
+            currentUnit = type === 'ether' ? 'ETH' : 'ASH';
+            
+            // Đặt giá trị mặc định
+            document.getElementById('modalBalance').textContent = currentBalance + ' ' + currentUnit;
+            document.getElementById('withdrawUnit').textContent = currentUnit;
+            document.getElementById('withdrawAmount').value = currentBalance.toFixed(4);
+            document.getElementById('withdrawAmount').max = currentBalance.toFixed(4);
+            
+            // Cập nhật preview
+            updatePreview();
+            
+            // Hiển thị modal
+            document.getElementById('withdrawModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('withdrawModal').classList.remove('active');
+        }
+
+        function setPercentage(percent) {
+            const amount = (currentBalance * percent / 100).toFixed(4);
+            document.getElementById('withdrawAmount').value = amount;
+            
+            // Cập nhật trạng thái nút phần trăm
+            document.querySelectorAll('.percentage-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const amountInput = document.getElementById('withdrawAmount');
+            let amount = parseFloat(amountInput.value);
+            
+            // Validate
+            if (isNaN(amount) || amount < 0.0001) {
+                amount = 0.0001;
+                amountInput.value = amount.toFixed(4);
+            }
+            
+            if (amount > currentBalance) {
+                amount = currentBalance;
+                amountInput.value = amount.toFixed(4);
+            }
+            
+            const remaining = (currentBalance - amount).toFixed(4);
+            
+            // Cập nhật preview
+            document.getElementById('previewAmount').textContent = amount.toFixed(4) + ' ' + currentUnit;
+            document.getElementById('previewRemaining').textContent = remaining + ' ' + currentUnit;
+        }
+
+        function confirmWithdrawal() {
+            const amount = document.getElementById('withdrawAmount').value;
+            const remaining = (currentBalance - parseFloat(amount)).toFixed(4);
+            
+            // Hiển thị thông báo (trong thực tế sẽ gửi transaction)
+            alert(`✅ Đã xác nhận rút ${amount} ${currentUnit}\nSố dư còn lại: ${remaining} ${currentUnit}\n\nGiao dịch đang được xử lý...`);
+            
+            // Cập nhật UI
+            currentBalance = parseFloat(remaining);
+            
+            // Cập nhật bảng
+            const balanceCell = document.querySelector('.balance-cell');
+            const withdrawBtn = document.querySelector('.withdraw-btn');
+            
+            if (withdrawType === 'ether') {
+                balanceCell.textContent = remaining + ' ETH';
+                if (remaining === '0.0000') {
+                    withdrawBtn.textContent = 'ĐÃ RÚT';
+                    withdrawBtn.disabled = true;
+                    withdrawBtn.style.background = '#6c757d';
+                }
+            }
+            
+            // Cập nhật tổng
+            document.querySelector('.summary').innerHTML = 
+                `Tổng: 1 wallet(s) | Tổng Ether: ${remaining} ETH | Tổng Token: 0.00 ASH`;
+            
+            closeModal();
+        }
+
+        // Khởi tạo event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const amountInput = document.getElementById('withdrawAmount');
+            amountInput.addEventListener('input', updatePreview);
+            
+            // Đóng modal khi click bên ngoài
+            document.getElementById('withdrawModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

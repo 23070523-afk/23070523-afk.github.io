@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+
+<style>
+  body{display:flex;justify-content:center;align-items:center;height:100vh;font-family:Arial;background:#a9bae6}
+  form{display:flex;flex-direction:column;gap:10px;background:#fff;padding:18px;border-radius:10px;width:300px}
+  .strength{font-weight:bold}
+</style>
+</head>
+
+<body>
+
+<form id="f">
+  <h3>Register</h3>
+
+  <input id="u" placeholder="Username (5–15)" required>
+
+  <input id="p" type="password" placeholder="Password" required>
+  <div id="s" class="strength"></div>
+
+  <input id="img" type="file" accept=".jpg,.jpeg,.png" required>
+
+  <button>Submit</button>
+</form>
+
+<script>
+const f = document.getElementById("f");
+const u = document.getElementById("u");
+const p = document.getElementById("p");
+const s = document.getElementById("s");
+const img = document.getElementById("img");
+
+// strength realtime
+p.oninput = () => {
+  const v = p.value;
+  const a = /[a-zA-Z]/.test(v), n = /\d/.test(v);
+  s.textContent =
+    v.length < 6 || (!a && !n) ? "Weak" :
+    (a && n && v.length < 10) ? "Medium" :
+    (a && n) ? "Strong" : "";
+  s.style.color = s.textContent === "Strong" ? "green" :
+                  s.textContent === "Medium" ? "orange" : "red";
+};
+
+// validate submit
+f.onsubmit = e => {
+  if (u.value.length < 5 || u.value.length > 15)
+    return e.preventDefault(), alert("Username phải 5–15 ký tự");
+
+  if (!(/[a-zA-Z]/.test(p.value) && /\d/.test(p.value)))
+    return e.preventDefault(), alert("Password phải có chữ và số");
+
+  const file = img.files[0];
+  if (file && !["image/jpeg","image/png"].includes(file.type))
+    return e.preventDefault(), alert("Ảnh chỉ JPG hoặc PNG");
+};
+</script>
+
+</body>
+</html>

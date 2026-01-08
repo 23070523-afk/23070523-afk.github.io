@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<style>
+nav a { margin: 0 4px; }
+
+.hidden {
+  display: none;
+}
+</style>
+
+<script>
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("hidden");
+}
+</script>
+</head>
+
+<body>
+
+<button onclick="toggleMenu()">Toggle Menu</button>
+
+<nav id="menu">
+  <a href="#">Home</a> •
+  <a href="#">Books ©</a> •
+  <a href="#">Authors TM</a> •
+  <a href="#">Contact</a>
+</nav>
+
+</body>
+</html>
